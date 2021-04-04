@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Head from "next/head";
 import Editor from "@monaco-editor/react";
 import remark from "remark";
@@ -12,7 +12,10 @@ const initial = "# Write your own story";
 export default function Home() {
   const [text, setText] = React.useState(initial);
 
-  function handleChange(text) {
+  function handleChange(text: string | undefined) {
+    if (text === undefined) {
+      return;
+    }
     setText(text);
   }
 
@@ -32,7 +35,10 @@ export default function Home() {
           onChange={handleChange}
         />
         <div className={styles.preview}>
-          {remark().use(parse).use(remark2react).processSync(text).result}
+          {
+            remark().use(parse).use(remark2react).processSync(text)
+              .result as ReactElement
+          }
         </div>
       </main>
     </div>
