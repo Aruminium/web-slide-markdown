@@ -1,9 +1,8 @@
 import React, { ReactElement } from "react";
 import Head from "next/head";
 import Editor from "@monaco-editor/react";
-import remark from "remark";
-import parse from "remark-parse";
-import remark2react from "remark-react";
+
+import processor from "../src/remark";
 
 import styles from "../styles/Home.module.css";
 
@@ -17,6 +16,10 @@ export default function Home() {
       return;
     }
     setText(text);
+  }
+
+  function convert() {
+    return processor.processSync(text).result as ReactElement;
   }
 
   return (
@@ -34,12 +37,7 @@ export default function Home() {
           defaultValue={initial}
           onChange={handleChange}
         />
-        <div className={styles.preview}>
-          {
-            remark().use(parse).use(remark2react).processSync(text)
-              .result as ReactElement
-          }
-        </div>
+        <div className={styles.preview}>{convert()}</div>
       </main>
     </div>
   );
