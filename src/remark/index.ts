@@ -4,6 +4,8 @@ import remark2react from "remark-react";
 import gh from "hast-util-sanitize/lib/github.json";
 import deepmerge from "deepmerge";
 
+import Note from "../components/Note";
+
 import * as note from "./note";
 
 const sanitize = deepmerge(gh, {
@@ -20,6 +22,9 @@ const processor = unified()
       },
     },
     sanitize: false,
+    remarkReactComponents: {
+      aside: Note,
+    },
   });
 
 export default processor;
