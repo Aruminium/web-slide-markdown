@@ -22,7 +22,7 @@ const processor = unified()
         note: note.handler,
       },
     },
-    sanitize: false,
+    sanitize,
     remarkReactComponents: {
       aside: Note,
     },
