@@ -1,3 +1,4 @@
+import React from "react";
 import unified from "unified";
 import parse from "remark-parse";
 import remark2react from "remark-react";
@@ -27,4 +28,6 @@ const processor = unified()
     },
   });
 
-export default processor;
+export default function convert(text: string) {
+  return processor.processSync(text).result as React.ReactElement;
+}

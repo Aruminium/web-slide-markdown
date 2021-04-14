@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import Head from "next/head";
 import Editor from "@monaco-editor/react";
 
-import processor from "../src/unified";
+import convert from "../src/unified";
 
 import styles from "../styles/Home.module.css";
 
@@ -16,10 +16,6 @@ export default function Home() {
       return;
     }
     setText(text);
-  }
-
-  function convert() {
-    return processor.processSync(text).result as ReactElement;
   }
 
   return (
@@ -37,7 +33,7 @@ export default function Home() {
           defaultValue={initial}
           onChange={handleChange}
         />
-        <div className={styles.preview}>{convert()}</div>
+        <div className={styles.preview}>{convert(text)}</div>
       </main>
     </div>
   );
