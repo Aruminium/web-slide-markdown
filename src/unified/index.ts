@@ -6,7 +6,7 @@ import deepmerge from "deepmerge";
 
 import Note from "../components/Note";
 
-import * as note from "./note";
+import * as note from "./plugins/note";
 
 const sanitize = deepmerge(gh, {
   tagNames: ["aside"],

@@ -1,12 +1,9 @@
-import { H } from "mdast-util-to-hast";
 import unified from "unified";
 import visit from "unist-util-visit";
 import { Node, Parent } from "unist";
 import { VFileCompatible } from "vfile";
 
-import { isParent, isText } from "./util";
-
-import all from "./all";
+import { isParent, isText } from "../../util/type-predicates";
 
 function isNoteParentNotation(node: Node) {
   if (!isParent(node)) {
@@ -34,7 +31,7 @@ function isNoteParentNotation(node: Node) {
   return true;
 }
 
-export const attacher: unified.Plugin = () => {
+const attacher: unified.Plugin = () => {
   return (tree: Node, _file: VFileCompatible) => {
     visit(tree, "paragraph", visitor);
 
@@ -42,20 +39,20 @@ export const attacher: unified.Plugin = () => {
       if (parent === undefined) {
         return;
       }
-      if (!isNoteParentNotation(node)) {
-        return;
-      }
       if (!isParent(node)) {
         return;
       }
-
-      const lastIndex = node.children.length - 1;
+      if (!isNoteParentNotation(node)) {
+        return;
+      }
 
       const children = [...node.children];
       children[0] = {
         ...children[0],
         value: (children[0].value as string).slice(1),
       };
+
+      const lastIndex = children.length - 1;
       children[lastIndex] = {
         ...children[lastIndex],
         value: (children[lastIndex].value as string).slice(
@@ -72,6 +69,4 @@ export const attacher: unified.Plugin = () => {
   };
 };
 
-export function handler(h: H, node: Node) {
-  return h(node, "aside", all(h, node));
-}
+export default attacher;

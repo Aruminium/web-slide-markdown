@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import Head from "next/head";
 import Editor from "@monaco-editor/react";
 
-import processor from "../src/remark";
+import processor from "../src/unified";
 
 import styles from "../styles/Home.module.css";
 
